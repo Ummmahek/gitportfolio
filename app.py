@@ -121,4 +121,8 @@ async def api_skills(username: str):
     if not data:
         return JSONResponse({"error": "Portfolio not found."}, status_code=404)
     # Return skills as JSON for frontend graphs
-    return JSONResponse(data.get("skills", {})) 
+    return JSONResponse(data.get("skills", {}))
+
+@app.get("/portfolio", response_class=HTMLResponse)
+async def portfolio_form(request: Request):
+    return templates.TemplateResponse("portfolio_form.jinja", {"request": request}) 
