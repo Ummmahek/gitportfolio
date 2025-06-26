@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitPortfolio</title>
+    <link rel="icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <header class="bg-blue-700 text-white p-4 shadow">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold">GitPortfolio</a>
+            <nav>
+                <a href="/" class="mx-2 hover:underline">Home</a>
+            </nav>
+        </div>
+    </header>
+    <main class="flex-1 container mx-auto py-8">
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="bg-gray-800 text-gray-200 text-center p-4 mt-8">
+        &copy; {{ 2024 }} GitPortfolio. Powered by FastAPI &amp; AI.
+    </footer>
+</body>
+</html> 

@@ -1,0 +1,12 @@
+{% extends "base.jinja" %}
+{% block content %}
+<div class="max-w-xl mx-auto bg-white p-8 rounded shadow">
+    <h1 class="text-3xl font-bold mb-4 text-center">Welcome to GitPortfolio</h1>
+    <p class="mb-6 text-gray-700 text-center">Generate a beautiful, interactive portfolio from your GitHub repositories. Visualize your skills, project timelines, and more!</p>
+    <form method="post" action="/generate" class="flex flex-col gap-4">
+        <label for="github_url" class="font-semibold">GitHub Repository or User URL</label>
+        <input type="url" id="github_url" name="github_url" required placeholder="https://github.com/yourusername/yourrepo" class="border p-2 rounded">
+        <button type="submit" class="bg-blue-700 text-white py-2 rounded hover:bg-blue-800 font-bold">Generate Portfolio</button>
+    </form>
+</div>
+{% endblock %}

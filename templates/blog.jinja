@@ -1,0 +1,14 @@
+{% extends "base.jinja" %}
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <a href="/portfolio/{{ username }}" class="text-blue-700 underline">&larr; Back to Portfolio</a>
+    <h2 class="text-2xl font-bold mb-4 mt-2">Blog Posts</h2>
+    {% for post in blogs %}
+    <div class="bg-white border rounded p-4 mb-4 shadow-sm">
+        <div class="text-gray-500 text-sm mb-1">{{ post.date }}</div>
+        <h3 class="text-lg font-bold mb-2">{{ post.title }}</h3>
+        <div class="text-gray-800">{{ post.content }}</div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %} 

@@ -1,0 +1,16 @@
+{% extends "base.jinja" %}
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <a href="/portfolio/{{ username }}" class="text-blue-700 underline">&larr; Back to Portfolio</a>
+    <h2 class="text-2xl font-bold mb-4 mt-2">Project Timeline</h2>
+    <ul class="border-l-4 border-blue-700 pl-6">
+        {% for item in timeline %}
+        <li class="mb-8">
+            <div class="text-blue-700 font-bold">{{ item.year }}</div>
+            <div class="text-lg font-semibold">{{ item.event }}</div>
+            <div class="text-gray-700">{{ item.description }}</div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %} 

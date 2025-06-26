@@ -1,0 +1,58 @@
+{% extends "base.jinja" %}
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <a href="/portfolio/{{ username }}" class="text-blue-700 underline">&larr; Back to Portfolio</a>
+    <h2 class="text-2xl font-bold mb-4 mt-2">Skills Overview</h2>
+    <h3 class="text-lg font-semibold mb-2">Skill Counts</h3>
+    <table class="w-full mb-6 border">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="p-2 text-left">Skill</th>
+                <th class="p-2 text-left">Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for skill, count in skills.skills.items() %}
+            <tr>
+                <td class="p-2">{{ skill }}</td>
+                <td class="p-2">{{ count }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3 class="text-lg font-semibold mb-2">Skill Progression</h3>
+    <ul class="list-disc pl-6">
+        {% for item in skills.progression %}
+        <li><span class="font-bold">{{ item.year }}:</span> {{ item.skills | join(", ") }}</li>
+        {% endfor %}
+    </ul>
+    <h3 class="text-lg font-semibold mb-2">Skill Graph</h3>
+    <canvas id="skillsChart" width="400" height="200"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      async function loadSkills() {
+        const res = await fetch(`/api/skills/{{ username }}`);
+        const data = await res.json();
+        const skills = data.skills || data;
+        const ctx = document.getElementById('skillsChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: Object.keys(skills),
+            datasets: [{
+              label: 'Skill Count',
+              data: Object.values(skills),
+              backgroundColor: 'rgba(54, 162, 235, 0.5)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: { y: { beginAtZero: true } }
+          }
+        });
+      }
+      loadSkills();
+    </script>
+</div>
+{% endblock %} 
