@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 from fastapi import FastAPI, Request, Form, UploadFile
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -27,9 +30,17 @@ async def hf_summarize(text):
     payload = {"inputs": text[:1000]}
     async with httpx.AsyncClient() as client:
         response = await client.post(url, headers=HF_HEADERS, json=payload, timeout=60)
-        result = response.json()
+        try:
+            result = response.json()
+        except Exception as e:
+            print(f"[hf_summarize] JSON decode error: {e}")
+            return f"Summarization failed: {e}"
+        print(f"[hf_summarize] API response: {result}")
         if isinstance(result, list) and "summary_text" in result[0]:
             return result[0]["summary_text"]
+        if isinstance(result, dict) and "error" in result:
+            print(f"[hf_summarize] API error: {result['error']}")
+            return f"Summarization API error: {result['error']}"
         return "No summary available."
 
 async def hf_generate_blog(prompt):
@@ -62,7 +73,7 @@ async def home(request: Request):
 @app.post("/generate", response_class=HTMLResponse)
 async def generate(request: Request, github_url: str = Form(...)):
     username = get_username_from_github_url(github_url)
-    portfolio_data = await generate_portfolio(github_url)
+    portfolio_data = await generate_portfolio(github_url, summarizer=hf_summarize)
     PORTFOLIOS[username] = portfolio_data
     return RedirectResponse(url=f"/portfolio/{username}", status_code=303)
 
